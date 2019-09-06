@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.8.28)  5 SEP 2019 11:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.8.28)  6 SEP 2019 01:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1179,18 +1179,18 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 37.
  ) 
 Here is how much of TeX's memory you used:
- 15145 strings out of 492623
- 225685 string characters out of 6135669
+ 15169 strings out of 492623
+ 225877 string characters out of 6135669
  414773 words of memory out of 5000000
  18473 multiletter control sequences out of 15000+600000
- 41940 words of font info for 205 fonts, out of 8000000 for 9000
+ 43956 words of font info for 225 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  44i,12n,40p,688b,449s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmssi12.pfb>
-Output written on main.pdf (13 pages, 70956 bytes).
+Output written on main.pdf (13 pages, 72893 bytes).
 PDF statistics:
  170 PDF objects out of 1000 (max. 8388607)
  148 compressed objects within 2 object streams

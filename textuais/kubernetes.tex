@@ -1,3 +1,11 @@
 \chapter{KUBERNETES}
 \label{chap:kubernetes}
 
+O Kubernetes é uma plataforma portátil, extensível e de código aberto para gerenciar cargas de trabalho e serviços em contêiner, que facilita a configuração declarativa e a automação. Possui um ecossistema grande e de rápido crescimento. Os serviços, suporte e ferramentas do Kubernetes estão amplamente disponíveis.
+
+O nome Kubernetes é originário do grego, significando timoneiro ou piloto. O Google deu origem ao projeto Kubernetes em 2014. O Kubernetes se baseia em uma década e meia de experiência que o Google tem em executar cargas de trabalho de produção em grande escala , combinadas com as melhores idéias e práticas da comunidade.
+
+Para trabalhar com o Kubernetes, use os objetos da API do Kubernetes para descrever o estado desejado do cluster : quais aplicativos ou outras cargas de trabalho você deseja executar, quais imagens de contêineres eles usam, o número de réplicas, quais recursos de rede e disco você deseja disponibilizar e Mais. Você define o estado desejado criando objetos usando a API do Kubernetes, normalmente por meio da interface da linha de comandos kubectl. Você também pode usar a API Kubernetes diretamente para interagir com o cluster e definir ou modificar o estado desejado.
+
+Depois de definir o estado desejado, o Kubernetes Control Plane faz com que o estado atual do cluster corresponda ao estado desejado por meio do Pod Lifecycle Event Generator (PLEG). Para fazer isso, o Kubernetes executa várias tarefas automaticamente - como iniciar ou reiniciar contêineres, dimensionar o número de réplicas de um determinado aplicativo e muito mais.
+
