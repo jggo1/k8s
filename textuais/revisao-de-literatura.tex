@@ -6,8 +6,48 @@
 \section{VIRTUALIZAÇÃO}
 \label{sec:virtualizacao}
 
+Virtualização, basicamente, é a técnica de separar aplicação e sistema operacional dos componentes físicos. Por exemplo, uma máquina virtual possui aplicação e sistema operacional como um servidor físico, mas estes não estão vinculados ao software e pode ser disponibilizado onde for mais conveniente. Uma aplicação deve ser executada em um sistema operacional em um determinado software. Com virtualização de aplicação ou apresentação, estas aplicações podem rodar em um servidor ou ambiente centralizado e ser deportada para outros sistemas operacionais e hardwares.
+
+\subsection{\textit{HYPERVISOR}}
+\label{sec:hypervisor}
+
+O \textit{hypervisor} é um \textit{firmware} ou hardware que cria e roda máquinas virtuais (\textit{VMs}). O computador no qual o \textit{hypervisor} roda uma ou mais VMs é chamado de máquina hospedeira (\textit{host}), e cada \textit{VM} é chamada de máquina convidada (\textit{guest}). O \textit{hypervisor} se apresenta aos sistemas operacionais convidados como uma plataforma de virtualização e gerencia a execução dos sistemas operacionais convidados. 
+
+Existem dois tipos de hypervisor, o primeiro tipo é conhecido como bare matal, onde o próprio sistema operacional que gerencia as VM, podemos citar o VMware: ESX, Xem, CubeOS, Microsoft Hyper-V. O segudo modelo é o hosted onde o hypervisor se encontra encima do sistema operacional, seja Linux, Windowns ou MacOS, podemos citar o virtualbox, VMware: Workstation, QEMU, OVirt.   
+
+\subsection{VIRTUALIZAÇÃO COMPLETA E PARCIAL}
+\label{sec:virtualizacao-completa-parcial}
+
+Como o próprio nome sugere, a virtualização completa realiza toda a abstração do sistema físico, com o objetivo de fornecer ao sistema operacional hóspede uma réplica do hardware  virtualizado pelo hospedeiro. Este tipo dispensa a necessidade de modificar o SO convidado, que trabalha desconhecendo que há virtualização.
+
+Com a virtualização total, as instruções não críticas são executadas diretamente no hardware, enquanto as instruções críticas são interceptadas e executadas pela hypervisor. O sistema operacional visitante, no entanto, sequer tem o conhecimento de que está sendo executado sobre o hypervisor.
+
+Jã um SO convidado paravirtualizado tem a assistência de um compilador inteligente que atua na substituição de instruções de SO não virtualizáveis por hiperchamadas (hypercalls) quando for executar uma instrução sensível. Tal procedimento poupa o desempenho, quando comparado ao que foi descrito na virtualização total.
+
+Em relação aos dispositivos de E/S, a paravirtualização permite que as máquinas virtuais usem os drivers do dispositivo físico real sob o controle do hipervisor, o que reduz os problemas de compatibilidade.
+
+\subsection{VIRTUALIZAÇÃO DE HARDWARE}
+\label{sec:virtualizacao-hardware}
+
+\section{COUNTAINER LINUX}
+\label{sec:linux-countainer}
+
+Um container Linux é um conjunto de um ou mais processos organizados isoladamente do sistema. Todos os arquivos necessários à execução de tais processos são fornecidos por uma imagem distinta. Na prática, os containers Linux são portáteis e consistentes durante toda a migração entre os ambientes de desenvolvimento, teste e produção. Essas características os tornam uma opção muito mais rápida do que os pipelines de desenvolvimento, que dependem da replicação dos ambientes de teste tradicionais.
+
+Embora os containers não tenham se originado no Linux, é no mundo open source que as melhores ideias são emprestadas, modificadas e aprimoradas. Foi o que aconteceu com os containers.
+
+A ideia do que atualmente chamamos de tecnologia de containers surgiu inicialmente no ano 2000 como jails do FreeBSD, uma tecnologia que permite particionar um sistema FreeBSD em vários subsistemas ou celas (por isso o nome "jails"). Os jails foram desenvolvidos como ambientes seguros que podiam ser compartilhados por um administrador de sistemas com vários usuários internos ou externos à empresa. O propósito do jail era a criação de processos em um ambiente modificado por chroot (no qual o acesso ao sistema de arquivos, rede e usuários é virtualizado), que não pudesse escapar ou comprometer o sistema como um todo. A implementação dele era limitada, e os métodos de escape do ambiente em jail foram descobertos com o tempo.
+
+Em pouquíssimo tempo, mais tecnologias foram combinadas para tornar essa abordagem isolada uma realidade. Os grupos de controle (cgroups) são uma funcionalidade de kernel que controla e limita o uso de recursos por um processo ou grupo de processos. E o systemd, um sistema de inicialização que configura o espaço do usuário e gerencia processos, é usado pelo cgroups para dar mais controle sobre os processos isolados. Ambas as tecnologias, além de adicionarem um controle geral ao Linux, serviram como estrutura para a separação eficaz de ambientes.
+
+Os avanços em namespaces de kernel representaram a próxima etapa na criação dos containers. Com os namespaces de kernel, absolutamente tudo, desde IDs de processos a nomes de rede, puderam ser virtualizados em um kernel Linux. Um dos avanços mais recentes, os namespaces de usuários “permitem realizar mapeamentos de IDs de usuários e grupos por namespace. No contexto dos containers, isso significa que os usuários e grupos podem ter privilégios para realizar determinadas operações dentro de um container, sem ter esses mesmos privilégios fora dele”. O projeto Linux Containers (LXC) contribuiu com as ferramentas, bibliotecas, associações de linguagens e modelos necessários para esses avanços, o que melhorou a experiência do usuário na utilização de containers. O LXC tornou mais fácil para os usuários iniciar containers com uma interface de linha de comando simples.
+
 \section{COUNTAINER ENGINE}
 \label{sec:countainerEngine}
+
+O Docker adicionou muitos dos novos conceitos e ferramentas: uma interface de linha de comando simples para executar e criar novas imagens em camadas, um daemon de servidor, uma biblioteca de imagens de container pré-criadas e o conceito de servidor de registros. Combinadas, essas tecnologias possibilitaram aos usuários criar novos containers em camadas com rapidez e compartilhá-los facilmente com outras pessoas.
+
+Com o Docker, é possível lidar com os containers como se fossem máquinas virtuais modulares e extremamente leves. Além disso, os containers oferecem maior flexibilidade para você criar, implantar, copiar e migrar um container de um ambiente para outro.
 
 \section{ORQUESTRAÇÃO DE COUNTAINER}
 \label{sec:orquestracao}
