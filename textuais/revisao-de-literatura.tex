@@ -27,22 +27,23 @@ Em relação aos dispositivos de E/S, a paravirtualização permite que as máqu
 \section{CONTAINER LINUX}
 \label{sec:linux-countainer}
 
-A \citeonline{redhat1} define o que ẽ um container Linux em seu artigo "O que é um container Linux?" como:
+A \citeonline{redhat1}  em seu artigo "O que é um container Linux?" define container Linux como:
 \begin{citacao}
 	Um container Linux é um conjunto de um ou mais processos organizados isoladamente do sistema. Todos os arquivos necessários à execução de tais processos são fornecidos por uma imagem distinta. Na prática, os containers Linux são portáteis e consistentes durante toda a migração entre os ambientes de desenvolvimento, teste e produção. Essas características os tornam uma opção muito mais rápida do que os pipelines de desenvolvimento, que dependem da replicação dos ambientes de teste tradicionais.
 \end{citacao}  
 
-Imagine que você esteja desenvolvendo uma aplicação. Você trabalha em um laptop, e o seu ambiente tem uma configuração específica. Outros desenvolvedores podem ter configurações um pouco diferentes. A aplicação é baseada nessa configuração e depende de bibliotecas, dependências e arquivos específicos. Ao mesmo tempo, a empresa em que você trabalha possui ambientes de desenvolvimento e de produção padronizados com uma configuração própria, e também possui seus próprios conjuntos de arquivos auxiliares. Você deseja emular esses ambientes localmente, sem a necessidade de recriar os ambientes do servidor. Então, como fazer a aplicação funcionar em ambientes diferentes, ser aprovada pela garantia de qualidade e implantá-la sem muito esforço, sem a necessidade de reescrever ou realizar reparos no código? A resposta é: containers.
+Por meio dessa definição pode-se perceber que os contaiers são bons no desenvolvimento de software, pois os programadores ao criar seus programas em um ambiente isolado e unificado, tanto na parte do desenvolvimento quanto no uso em produção.    
 
 \begin{figure}[!htb]
 	\centering
-	\caption{Container}
+	\caption{Container LXC}
 	\includegraphics[width=0.5\textwidth]{figuras/what-is-a-container.png}
 	\fonte{\citeonline{redhat1}}
 	\label{fig:figura-exemplo1}
 \end{figure}
 
-O container que abriga a aplicação tem as bibliotecas, as dependências e os arquivos necessários para migrá-la por todos os ambientes até a produção, sem os efeitos colaterais indesejados. Na verdade, você deve imaginar o conteúdo de uma imagem de container como uma instalação de uma distribuição do Linux, pois essa imagem é completa com pacotes RPM, arquivos de configuração e outros elementos. No entanto, é muito mais fácil lidar com uma distribuição de imagem de container do que instalar novas cópias de sistemas operacionais. Dessa forma, evita-se o conflito e todos ficam satisfeitos.
+Para rodar uma aplicação ou serviço, os containers Linux possuem as bibliotecas e as dependências dentro dele mesmo, assim possibilitando a migração entre os ambientes como o de desenvolvimento, teste e produção. A imagem mostra a camada de aplicações rodando em cima da camada de aquivos de suportes, que são as dependências e bibliotecas, isso tudo de maneira isolada do sistema operacional.    
+
 
 \subsection{EVOLUÇÃO DOS CONTAINERS}
 
@@ -65,31 +66,30 @@ Há três padrões principais que garantem a interoperabilidade das tecnologias 
 
 \begin{figure}[!htb]
 	\centering
-	\caption{LXC vs container}
+	\caption{LXC vs docker}
 	\includegraphics[width=0.9\textwidth]{figuras/traditional-linux-containers-vs-docker_0.png}
 	\fonte{\citeonline{redhat1}}
-	\label{fig:lxc-vs-containers}
+	\label{fig:lxc-vs-docker}
 \end{figure}
 
 \section{VIRTUALIZAÇÃO VS CONTAINER}
-\label{sec:virtualização-vs-container}
-As duas tecnologias são complementares. Aqui está uma maneira fácil de distinguir ambas:
+\label{sec:virtualizaçãos-vs-container}
 
-Com a virtualização, é possível executar sistemas operacionais (Windows ou Linux) simultaneamente em um único sistema de hardware.
+Em bora a virtualização e os containers se pareçam muito, sáo duas tecnologias diferentes, que complementam-se. De acordo com a \citeonline{redhat1}, a virtualização tem o proposito de executar sistemas operacionais simultaneamente em um único sistema de hardware. Já os containers compartilham o mesmo núcleo do sistema operacional e isolam os processos da aplicação do restante do sistema. Os containers Linux são extremamente portáteis, mas
+devem ser compatíveis com o sistema operacional subjacente.
 
-Os containers compartilham o mesmo kernel do sistema operacional e isolam os processos da aplicação do restante do sistema. Por exemplo: os sistemas ARM Linux executam containers ARM Linux, os sistemas x86 Linux executam containers x86 Linux e os sistemas x86 Windows executam containers x86 Windows. Os containers Linux são extremamente portáteis, mas devem ser compatíveis com o sistema operacional subjacente.
+A virtualização usa um hipervisor para emular o hardware e essa não é uma solução tão leve quanto o uso de containers. Os containers são executados de maneira nativa no sistema operacional. Em comparação com as máquinas virtuais, executar containers Linux consome menos recursos e facilita o gerenciamento dos processos. Além
+disso, é possível orquestrar as aplicações em vários containers em diversas nuvens.
 
-O que isso significa? Para começar, a virtualização usa um hipervisor para emular o hardware, o que permite executar vários sistemas operacionais simultaneamente. Essa não é uma solução tão leve quanto o uso de containers. Quando a capacidade e os recursos são limitados, é necessário usar aplicações leves que possam ser implantadas densamente. Os containers Linux são executados de maneira nativa no sistema operacional, compartilhando-o com todos os outros containers. Assim, as aplicações e os serviços permanecem leves e são executados em paralelo com agilidade.
-
-Os containers Linux são mais um salto evolucionário no desenvolvimento, implantação e gerenciamento de aplicações. Com as imagens de containers Linux, é possível ter portabilidade e controle de versão. Assim, isso ajuda a garantir que os trabalhos contidos no laptop do desenvolvedor sejam executados corretamente no ambiente de produção. Em comparação com as máquinas virtuais, executar containers Linux consome menos recursos, oferece uma interface padrão (início, interrupção, variáveis de ambiente etc.), mantém a aplicação isolada e facilita o gerenciamento dos processos, como parte de uma aplicação maior (vários containers). Além disso, é possível orquestrar as aplicações em vários containers em diversas clouds.
-
-\begin{figure}[!htb]
+\begin{figure}[!htb] 
 	\centering
 	\caption{Virtualização vs container}
 	\includegraphics[width=0.9\textwidth]{figuras/virtualization-vs-containers.png}
 	\fonte{\citeonline{redhat1}}
 	\label{fig:virtualization-vs-containers}
 \end{figure}
+
+%Os containers Linux são mais um salto evolucionário no desenvolvimento, implantação e gerenciamento de aplicações. Com as imagens de containers Linux, é possível ter portabilidade e controle de versão. Assim, isso ajuda a garantir que os trabalhos contidos no laptop do desenvolvedor sejam executados corretamente no ambiente de produção. Em comparação com as máquinas virtuais, executar containers Linux consome menos recursos, oferece uma interface padrão (início, interrupção, variáveis de ambiente etc.), mantém a aplicação isolada e facilita o gerenciamento dos processos, como parte de uma aplicação maior (vários containers). Além disso, é possível orquestrar as aplicações em vários containers em diversas clouds.
 
 
 
