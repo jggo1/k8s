@@ -1,20 +1,17 @@
 \chapter{INTRODUÇÃO}
 \label{chap:introducao}
 
-\section{JUSTIFICATIVA}
-\label{sec:justificativa}
+De acordo com a \citeonline{cloudnative}. Passamos por três eras no que diz respeito ha implantação de software: a tradicional, virtualizada e com \textit{containers}.
 
-\section{OBJETIVO}
-\label{sec:objetivo}
+Tradicionalmente, no início, as organizações executavam aplicativos em servidores físicos. Não havia como definir limites de recursos para aplicativos em um servidor físico, e isso causava problemas de alocação de recursos. Por exemplo, se vários aplicativos forem executados em um servidor físico, pode haver casos em que um aplicativo ocuparia a maioria dos recursos e, como resultado, os outros aplicativos teriam um desempenho inferior. Uma solução para isso seria executar cada aplicativo em um servidor físico diferente. Mas isso não escalou os recursos foram subutilizados, e era caro para as organizações manter muitos servidores físicos.
 
-\section{PROBLEMÁTICA}
-\label{sec:problematica}
+Como solução, a virtualização foi introduzida. Ele permite que você execute várias máquinas virtuais (VMs) na CPU de um único servidor físico. A virtualização permite que os aplicativos sejam isolados entre VMs e fornece um nível de segurança, pois as informações de um aplicativo não podem ser acessadas livremente por outro aplicativo.
 
-\section{METODOLOGIA}
-\label{sec:metodologia}
+A virtualização permite melhor utilização dos recursos em um servidor físico e melhor escalabilidade, porque um aplicativo pode ser adicionado ou atualizado facilmente, reduz os custos de hardware e muito mais. Com a virtualização, você pode apresentar um conjunto de recursos físicos como um cluster de máquinas virtuais descartáveis.
 
-\section{ORGANIZAÇÃO DO TRABALHO}
-\label{sec:organizacao}
+Cada VM é uma máquina completa executando todos os componentes, incluindo seu próprio sistema operacional, sobre o hardware virtualizado.
 
-%Normalmente ao final da introdução é apresentada, em um ou dois parágrafos curtos, a organização do restante do trabalho acadêmico.
-%Deve-se dizer o quê será apresentado em cada um dos demais capítulos.
+Os contêineres são semelhantes às VMs, mas possuem propriedades de isolamento relaxadas para compartilhar o Sistema Operacional (SO) entre os aplicativos. Portanto, os contêineres são considerados leves. Semelhante a uma VM, um contêiner possui seu próprio sistema de arquivos, CPU, memória, espaço de processo e muito mais. À medida que são dissociados da infraestrutura subjacente, eles são portáveis em nuvens e distribuições de SO.
+
+Esse trabalho tem o proposito de mostrar a ferramenta Kubernetes, tem como objetivo mostrar como ele funciona, mostrando os problemas que ele resolve. Na segunda sessão irei abordar mais profundamente sobre virtualização e containes, na terceira sessão irei abordar sobre o 
+Kubernetes

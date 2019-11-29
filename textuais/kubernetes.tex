@@ -3,9 +3,93 @@
 
 O Kubernetes é uma plataforma portátil, extensível e de código aberto para gerenciar cargas de trabalho e serviços em contêiner, que facilita a configuração declarativa e a automação. Possui um ecossistema grande e de rápido crescimento. Os serviços, suporte e ferramentas do Kubernetes estão amplamente disponíveis.
 
-O nome Kubernetes é originário do grego, significando timoneiro ou piloto. O Google deu origem ao projeto Kubernetes em 2014. O Kubernetes se baseia em uma década e meia de experiência que o Google tem em executar cargas de trabalho de produção em grande escala , combinadas com as melhores idéias e práticas da comunidade.
+O nome Kubernetes é originário do grego, significando timoneiro ou piloto. O Google abriu o projeto Kubernetes em 2014. O Kubernetes tem uma década e meia de experiência que o Google tem em executar cargas de trabalho de produção em grande escala, combinadas com as melhores idéias e práticas da comunidade.
 
-Para trabalhar com o Kubernetes, use os objetos da API do Kubernetes para descrever o estado desejado do cluster : quais aplicativos ou outras cargas de trabalho você deseja executar, quais imagens de contêineres eles usam, o número de réplicas, quais recursos de rede e disco você deseja disponibilizar e Mais. Você define o estado desejado criando objetos usando a API do Kubernetes, normalmente por meio da interface da linha de comandos kubectl. Você também pode usar a API Kubernetes diretamente para interagir com o cluster e definir ou modificar o estado desejado.
+Ao implantar o Kubernetes, você obtém um cluster.
 
-Depois de definir o estado desejado, o Kubernetes Control Plane faz com que o estado atual do cluster corresponda ao estado desejado por meio do Pod Lifecycle Event Generator (PLEG). Para fazer isso, o Kubernetes executa várias tarefas automaticamente - como iniciar ou reiniciar contêineres, dimensionar o número de réplicas de um determinado aplicativo e muito mais.
+Um cluster é um conjunto de máquinas, chamadas nós, que executam aplicativos em contêiner gerenciados pelo Kubernetes. Um cluster possui pelo menos um nó de trabalho e pelo menos um nó principal.
 
+
+
+Este documento descreve os vários componentes necessários para ter um cluster Kubernetes completo e funcionando.
+
+Aqui está o diagrama de um cluster Kubernetes com todos os componentes unidos.
+
+\section{COMPONENTES PRINCIPAIS}
+
+Os componentes principais fornecem o plano de controle do cluster. Os componentes principais tomam decisões globais sobre o cluster (por exemplo, agendamento) e detectam e respondem a eventos do cluster (por exemplo, iniciando um novo pod quando o campo de réplicas de uma implantação não está satisfeito).
+
+Os componentes principais podem ser executados em qualquer máquina no cluster. No entanto, para simplificar, os scripts de configuração geralmente iniciam todos os componentes principais na mesma máquina e não executam contêineres de usuários nessa máquina. Consulte Criando clusters de alta disponibilidade para obter um exemplo de instalação da VM com várias master.
+
+\subsection{kube-apiserver}
+O servidor da API é um componente do plano de controle do Kubernetes que expõe a API do Kubernetes. O servidor da API é o front end do plano de controle do Kubernetes.
+
+A principal implementação de um servidor de API do Kubernetes é o kube-apiserver. O kube-apiserver foi desenvolvido para ser dimensionado horizontalmente, ou seja, é dimensionado com a implantação de mais instâncias. Você pode executar várias instâncias do kube-apiserver e equilibrar o tráfego entre essas instâncias.
+
+\subsection{etcd}
+
+Armazenamento de valores-chave consistente e de alta disponibilidade usado como repositório do Kubernetes para todos os dados do cluster.
+
+Se o cluster do Kubernetes usa o etcd como repositório de backup, verifique se você tem um plano de backup para esses dados.
+
+Você pode encontrar informações detalhadas sobre o etcd na documentação oficial
+
+\subsection{kube-scheduler}
+
+Componente no mestre que assiste os pods recém-criados que não têm nenhum nó designado e seleciona um nó para execução.
+
+Os fatores levados em consideração nas decisões de agendamento incluem requisitos de recursos individuais e coletivos, restrições de hardware/software/política, especificações de afinidade e anti-afinidade, localidade dos dados, interferência entre cargas de trabalho e prazos.
+
+\subsection{kube-controller-manager}
+
+Componente no mestre que executa controladores.
+
+Logicamente, cada controlador é um processo separado, mas para reduzir a complexidade, todos são compilados em um único binário e executados em um único processo.
+
+Esses controladores incluem:
+\begin{itemize}
+	\item Controlador de nó: responsável por perceber e responder quando os nós são desativados.
+	\item Controlador de replicação: responsável por manter o número correto de pods para cada objeto do controlador de replicação no sistema.
+	\item Controlador de pontos finais: preenche o objeto Pontos finais (ou seja, junta-se a Serviços e pods).
+	\item Conta de serviço e controladores de token: crie contas padrão e tokens de acesso à API para novos namespaces
+\end{itemize}
+
+\subsection{cloud-controller-manager}
+
+O cloud-controller-manager executa controladores que interagem com os provedores de nuvem subjacentes. O binário cloud-controller-manager é um recurso alfa introduzido no Kubernetes versão 1.6.
+
+O cloud-controller-manager executa apenas loops de controlador específicos do provedor de nuvem. Você deve desativar esses loops de controlador no kube-controller-manager. Você pode desativar os loops do controlador configurando o sinalizador --cloud-provider como externo ao iniciar o kube-controller-manager.
+
+o gerenciador de controlador de nuvem permite que o código do fornecedor de nuvem e o código Kubernetes evoluam independentemente um do outro. Em versões anteriores, o código principal do Kubernetes dependia do código específico do provedor de nuvem para funcionalidade. Em versões futuras, o código específico para os fornecedores de nuvem deve ser mantido pelo próprio fornecedor de nuvem e vinculado ao gerenciador de controlador de nuvem durante a execução do Kubernetes.
+
+Os seguintes controladores têm dependências do provedor de nuvem:
+
+\begin{itemize}
+	\item Node Controller: For checking the cloud provider to determine if a node has been deleted in the cloud after it stops responding
+	\item Route Controller: For setting up routes in the underlying cloud infrastructure
+	\item Service Controller: For creating, updating and deleting cloud provider load balancers
+	\item Volume Controller: For creating, attaching, and mounting volumes, and interacting with the cloud provider to orchestrate volumes
+\end{itemize}
+
+\section{Componentes do nó}
+
+Node components run on every node, maintaining running pods and providing the Kubernetes runtime environment.
+
+\subsection{kubelet}
+Um agente que é executado em cada nó no cluster. Ele garante que os contêineres estejam sendo executados em um pod.
+
+O kubelet utiliza um conjunto de PodSpecs que são fornecidos por vários mecanismos e garante que os contêineres descritos nesses PodSpecs estejam funcionando e funcionando corretamente. O kubelet não gerencia contêineres que não foram criados pelo Kubernetes.
+
+\subsection{kube-proxy}
+
+O kube-proxy é um proxy de rede que é executado em cada nó do cluster, implementando parte do conceito de Serviço Kubernetes.
+
+O kube-proxy mantém regras de rede nos nós. Essas regras de rede permitem a comunicação em rede com seus Pods a partir de sessões de rede dentro ou fora do cluster.
+
+O kube-proxy usa a camada de filtragem de pacotes do sistema operacional, se houver uma disponível. Caso contrário, o kube-proxy encaminha o próprio tráfego.
+
+\subsection{Container Runtime}
+
+O tempo de execução do contêiner é o software responsável pela execução de contêineres.
+
+O Kubernetes suporta vários tempos de execução do contêiner: Docker, container, cri-o, rktlet e qualquer implementação do Kubernetes CRI (Container Runtime Interface).
